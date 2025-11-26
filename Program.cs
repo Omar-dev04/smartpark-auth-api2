@@ -3,6 +3,7 @@ using railwayapp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Connection string from Railway or fallback to appsettings
 var connectionString =
     Environment.GetEnvironmentVariable("DATABASE_URL") ??
     builder.Configuration.GetConnectionString("DefaultConnection");
@@ -22,12 +23,12 @@ app.UseAuthorization();
 // Root endpoint for Railway Health Check
 app.MapGet("/", () => "API Running");
 
-// MVC Route
+// MVC Default Route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Safe DB Migration
+// Safe Database Migration
 using (var scope = app.Services.CreateScope())
 {
     try
