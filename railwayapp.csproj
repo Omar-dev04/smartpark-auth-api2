@@ -20,9 +20,4 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
   </ItemGroup>
 
-  <!-- هذه الإضافة مهمة جدًا لكي تُرفع Views مع المشروع -->
-  <ItemGroup>
-    <Content Include="Views\\*.cshtml" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
 </Project>
