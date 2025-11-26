@@ -3,19 +3,18 @@ using railwayapp.Data; // your namespace
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Read connection string from appsettings OR Railway env vars
+// Read connection string from appsettings
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Register EF Core with PostgreSQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+// Enable MVC Views
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Auto-apply migrations on startup
+// Auto-apply migrations
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -24,6 +23,10 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-app.MapControllers();
+
+// Enable MVC routing
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
